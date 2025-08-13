@@ -1,6 +1,6 @@
 # jiho nico
 # 59 6-21 * * * /home/tetraloba/jiho/jiho.bash;
 # jiho short
-0 7-22 * * * /home/tetraloba/jiho/joho.bash -t short;
+0 7-22 * * * /home/tetraloba/jiho/jiho.bash -t short;
 # often
 0 23 * * * ~/jiho/zun_often.bash;
