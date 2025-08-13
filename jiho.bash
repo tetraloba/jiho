@@ -40,7 +40,7 @@ function play_short() {
     HOUR=$1;
     NUM=$(printf "%03d" $((HOUR + 1)))
 
-    aplay -D ${DEVICE} ${DIR}/mix_short/${HOUR}.wav;
+    aplay -D ${DEVICE} ${DIR}/mix_short/${NUM}.wav;
     exit;
 }
 
