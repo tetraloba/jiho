@@ -7,8 +7,8 @@ DEVICE="plughw:1,0"
 # $1 (argument 1) is HOUR to echo.
 function play_nico() {
     if test $# -ne 1; then
-	echo "invalid arguments";
-	exit;
+        echo "invalid arguments";
+        exit;
     fi;
 
     HOUR=$1;
@@ -33,14 +33,21 @@ function play_nico() {
 # $1 (argument 1) is HOUR to echo.
 function play_short() {
     if test $# -ne 1; then
-	echo "invalid arguments";
-	exit;
+        echo "invalid arguments";
+        exit;
     fi;
 
     HOUR=$1;
     NUM=$(printf "%03d" $((HOUR + 1)))
 
-    aplay -D ${DEVICE} ${DIR}/mix_short/${NUM}.wav;
+    if [ "$(aplay -l | grep '^card 1:' | grep -Po "(?<=\[)(.*?)(?=\])" | head -n 1)" = "USB Audio" ]; then
+        # When the device name is "USB Audio" (UGRENN CM991), insert brown-noise to avoid silent start.
+        sox -n -b 16 -r 24000 -c 1 -t wav - synth 0.1 brownnoise vol -65dB | \
+            sox -t wav - ${DIR}/mix_short/${NUM}.wav -t wav - | \
+            aplay -D ${DEVICE}
+    else
+        aplay -D ${DEVICE} ${DIR}/mix_short/${NUM}.wav;
+    fi;
     exit;
 }
 
